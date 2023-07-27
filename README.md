@@ -1,4 +1,4 @@
-# food_app
+# FOOD APP
 Updates:
 
 27.7.2023: Till this day I create new flutter project and I done;
