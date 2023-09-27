@@ -275,7 +275,7 @@ class _RegistrationPageState extends State<RegistrationPage>
                                         padding: EdgeInsets.all(
                                             2 * fontSizeCoefficient),
                                         child: Text(
-                                          "SIGN IN",
+                                          "SIGN UP",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16 * fontSizeCoefficient,

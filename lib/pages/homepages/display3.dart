@@ -40,7 +40,6 @@ class _Display3State extends State<Display3> {
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
-      backgroundColor: Colors.white38,
       resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
@@ -63,7 +62,7 @@ class _Display3State extends State<Display3> {
                   ),
                 ),
               ]),
-              SizedBox(height: 20 * fontSizeCoefficient),
+              SizedBox(height: 60 * fontSizeCoefficient),
               Container(
                 width: double.infinity,
                 height: 1,
@@ -237,6 +236,18 @@ class _Display3State extends State<Display3> {
                             "If you want to delete account, write us email at example@gmail.com!",
                             style: TextStyle(color: Colors.white),
                           ),
+                          actions: [
+                            IconButton(
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.cancel,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
                         );
                       });
                 },
@@ -338,6 +349,11 @@ class _Display3State extends State<Display3> {
                     ],
                   ),
                 ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: Colors.grey,
               ),
             ],
           ),
