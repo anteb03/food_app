@@ -1,6 +1,7 @@
 import 'package:aplikacija2/help/authentification.dart';
 import 'package:aplikacija2/help/help.dart';
 import 'package:aplikacija2/pages/authentification/loginpage.dart';
+import 'package:aplikacija2/pages/homepages/userdatacollection.dart';
 import 'package:flutter/material.dart';
 
 class Display3 extends StatefulWidget {
@@ -41,6 +42,7 @@ class _Display3State extends State<Display3> {
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white70,
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(paddingCoefficient * 2),
@@ -52,7 +54,7 @@ class _Display3State extends State<Display3> {
                 size: fontSizeCoefficient * 150,
               ),
               SizedBox(height: fontSizeCoefficient),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
                   username,
                   style: TextStyle(
@@ -61,8 +63,18 @@ class _Display3State extends State<Display3> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(
+                  height: fontSizeCoefficient * 5,
+                ),
+                Text(
+                  email,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: fontSizeCoefficient * 12,
+                  ),
+                )
               ]),
-              SizedBox(height: 60 * fontSizeCoefficient),
+              SizedBox(height: 55 * fontSizeCoefficient),
               Container(
                 width: double.infinity,
                 height: 1,
@@ -99,7 +111,14 @@ class _Display3State extends State<Display3> {
                 color: Colors.grey,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserDataCollection(),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 10 * fontSizeCoefficient,
@@ -233,7 +252,7 @@ class _Display3State extends State<Display3> {
                             style: TextStyle(color: Colors.white),
                           ),
                           content: const Text(
-                            "If you want to delete account, write us email at example@gmail.com!",
+                            "If you want to delete account, write us email with user ID in it at example@gmail.com!",
                             style: TextStyle(color: Colors.white),
                           ),
                           actions: [

@@ -64,7 +64,6 @@ class _HomepageState extends State<Homepage>
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: NotificationListener<ScrollEndNotification>(
         onNotification: (notification) {
           if (notification is ScrollEndNotification) {
@@ -93,7 +92,7 @@ class _HomepageState extends State<Homepage>
                 right: paddingCoefficient * 6),
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(40), bottom: Radius.circular(40)),
+                  top: Radius.circular(50), bottom: Radius.circular(50)),
               child: BottomNavigationBar(
                 showSelectedLabels: true,
                 showUnselectedLabels: false,

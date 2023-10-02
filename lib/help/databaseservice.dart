@@ -18,4 +18,8 @@ class DatabaseService {
         await userCollection.where("email", isEqualTo: email).get();
     return snapshot;
   }
+
+  String? getUid() {
+    return uid;
+  }
 }
