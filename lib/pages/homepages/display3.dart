@@ -90,7 +90,7 @@ class _Display3State extends State<Display3> {
                     children: [
                       Icon(
                         Icons.shopping_bag,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                         color: Colors.black,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
@@ -98,7 +98,7 @@ class _Display3State extends State<Display3> {
                         "Orders",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -127,7 +127,7 @@ class _Display3State extends State<Display3> {
                     children: [
                       Icon(
                         Icons.person,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                         color: Colors.black,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
@@ -135,7 +135,7 @@ class _Display3State extends State<Display3> {
                         "User data",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -157,7 +157,7 @@ class _Display3State extends State<Display3> {
                     children: [
                       Icon(
                         Icons.live_help_rounded,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                         color: Colors.black,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
@@ -165,7 +165,7 @@ class _Display3State extends State<Display3> {
                         "FAQ",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -187,7 +187,7 @@ class _Display3State extends State<Display3> {
                     children: [
                       Icon(
                         Icons.help,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                         color: Colors.black,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
@@ -195,7 +195,7 @@ class _Display3State extends State<Display3> {
                         "Help center",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -218,14 +218,14 @@ class _Display3State extends State<Display3> {
                       Icon(
                         Icons.verified_user,
                         color: Colors.black,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
                       Text(
                         "Verify your account.",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -279,14 +279,14 @@ class _Display3State extends State<Display3> {
                       Icon(
                         Icons.delete,
                         color: Colors.black,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
                       Text(
                         "Delete account",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
@@ -355,14 +355,14 @@ class _Display3State extends State<Display3> {
                       Icon(
                         Icons.logout,
                         color: Colors.black,
-                        size: fontSizeCoefficient * 17,
+                        size: fontSizeCoefficient * 15,
                       ),
                       SizedBox(width: 10 * fontSizeCoefficient),
                       Text(
                         "LOGOUT",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: fontSizeCoefficient * 17,
+                          fontSize: fontSizeCoefficient * 15,
                         ),
                       ),
                     ],
