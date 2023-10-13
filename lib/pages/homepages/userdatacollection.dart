@@ -1,5 +1,6 @@
 import 'package:aplikacija2/help/databaseservice.dart';
 import 'package:aplikacija2/help/help.dart';
+import 'package:aplikacija2/pages/verification/verification1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikacija2/help/authentification.dart';
@@ -17,6 +18,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
   String username = "";
   String email = "";
   String uid = "";
+  bool isVerified = false;
 
   @override
   void initState() {
@@ -36,6 +38,10 @@ class _UserDataCollectionState extends State<UserDataCollection> {
         username = val!;
       });
     });
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      isVerified = user.emailVerified;
+    }
   }
 
   void getUidFromDatabaseService() async {
@@ -43,11 +49,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
     if (user != null) {
       String currentUid = user.uid;
       DatabaseService databaseService = DatabaseService(currentUid);
-      String? dbUid = await databaseService.getUid();
-
-      setState(() {
-        uid = dbUid ?? "";
-      });
+      uid = currentUid;
     }
   }
 
@@ -92,7 +94,16 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                       color: Colors.black,
                       fontSize: fontSizeCoefficient * 13,
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    width: fontSizeCoefficient * 6,
+                  ),
+                  if (isVerified)
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: fontSizeCoefficient * 13,
+                    ),
                 ],
               ),
               SizedBox(
@@ -103,7 +114,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                   Icon(
                     Icons.email,
                     size: fontSizeCoefficient * 16,
-                    color: Colors.black,
+                    color: isVerified ? Colors.black : Colors.red,
                   ),
                   SizedBox(
                     width: fontSizeCoefficient * 10,
@@ -111,10 +122,35 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                   Text(
                     email,
                     style: TextStyle(
-                      color: Colors.black,
+                      color: isVerified ? Colors.black : Colors.red,
                       fontSize: fontSizeCoefficient * 13,
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    width: fontSizeCoefficient * 10,
+                  ),
+                  if (isVerified)
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: fontSizeCoefficient * 13,
+                    )
+                  else
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Verification1(),
+                          ),
+                        );
+                      },
+                      child: Text("Verify!",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: fontSizeCoefficient * 12,
+                              decoration: TextDecoration.underline)),
+                    )
                 ],
               ),
               SizedBox(
@@ -155,21 +191,6 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                       size: fontSizeCoefficient * 14,
                       color: Colors.black,
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: fontSizeCoefficient * 12,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.phone,
-                    color: Colors.black,
-                    size: fontSizeCoefficient * 16,
-                  ),
-                  SizedBox(
-                    width: fontSizeCoefficient * 10,
                   ),
                 ],
               ),
