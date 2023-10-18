@@ -15,3 +15,8 @@ Updates:
 4.10.2023: Till this day:
 - collected data on one place and starting verification of user,
 - making corrections on actual code and remaking UI
+ 
+18.10.2023: Till this day:
+-uploaded full verification of user 
+-started with uploading user profile picture in Firebase Storage 
+-adding other functionalities to project 
