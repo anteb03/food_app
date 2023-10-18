@@ -2,7 +2,9 @@ import 'package:aplikacija2/help/authentification.dart';
 import 'package:aplikacija2/help/help.dart';
 import 'package:aplikacija2/pages/authentification/loginpage.dart';
 import 'package:aplikacija2/pages/homepages/userdatacollection.dart';
+import 'package:aplikacija2/pages/verification/verification1.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Display3 extends StatefulWidget {
   const Display3({super.key});
@@ -15,11 +17,13 @@ class _Display3State extends State<Display3> {
   AuthService authService = AuthService();
   String username = "";
   String email = "";
+  bool isEmailVerified = false;
 
   @override
   void initState() {
     super.initState();
     getUserData();
+    checkEmailVerification();
   }
 
   getUserData() async {
@@ -32,6 +36,13 @@ class _Display3State extends State<Display3> {
       setState(() {
         username = val!;
       });
+    });
+  }
+
+  Future checkEmailVerification() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    setState(() {
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
   }
 
@@ -51,18 +62,35 @@ class _Display3State extends State<Display3> {
             children: [
               Icon(
                 Icons.account_circle,
-                size: fontSizeCoefficient * 150,
+                size: fontSizeCoefficient * 175,
               ),
               SizedBox(height: fontSizeCoefficient),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  username,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: fontSizeCoefficient * 23,
-                    fontWeight: FontWeight.bold,
+                if (isEmailVerified = true)
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Text(
+                      username,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: fontSizeCoefficient * 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: fontSizeCoefficient * 1,
+                    ),
+                    Icon(Icons.verified,
+                        size: fontSizeCoefficient * 15, color: Colors.blue)
+                  ])
+                else
+                  Text(
+                    username,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: fontSizeCoefficient * 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
                 SizedBox(
                   height: fontSizeCoefficient * 5,
                 ),
@@ -208,7 +236,13 @@ class _Display3State extends State<Display3> {
                 color: Colors.grey,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Verification1(),
+                      ));
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 10 * fontSizeCoefficient,

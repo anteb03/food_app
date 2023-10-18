@@ -6,6 +6,10 @@ version: 0.1.0
 environment:
   sdk: '>=3.0.5 <4.0.0'
 
+platforms:
+  android
+  ios
+
 dependencies:
   cloud_firestore: ^4.8.2
   firebase_auth: ^4.6.3
@@ -32,8 +36,8 @@ flutter_icons:
 flutter:
   uses-material-design: true
   assets:
-    - assets/animation_loading.json
     - assets/fonts/
+    - assets/picture1.jpg
   fonts:
     - family: Rubik
       fonts:
