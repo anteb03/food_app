@@ -5,6 +5,7 @@ import 'package:aplikacija2/pages/homepages/userdatacollection.dart';
 import 'package:aplikacija2/pages/verification/verification1.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Display3 extends StatefulWidget {
   const Display3({super.key});
@@ -23,7 +24,7 @@ class _Display3State extends State<Display3> {
   void initState() {
     super.initState();
     getUserData();
-    checkEmailVerification();
+    checkIsEmailVerified();
   }
 
   getUserData() async {
@@ -39,11 +40,26 @@ class _Display3State extends State<Display3> {
     });
   }
 
+  void checkIsEmailVerified() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isVerified = prefs.getBool('isEmailVerified');
+    if (isVerified != null && isVerified) {
+      setState(() {
+        isEmailVerified = true;
+      });
+    }
+    if (!isEmailVerified) {
+      checkEmailVerification();
+    }
+  }
+
   Future checkEmailVerification() async {
     await FirebaseAuth.instance.currentUser!.reload();
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isEmailVerified', isEmailVerified);
   }
 
   @override
@@ -66,7 +82,7 @@ class _Display3State extends State<Display3> {
               ),
               SizedBox(height: fontSizeCoefficient),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                if (isEmailVerified = true)
+                if (isEmailVerified)
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
                       username,

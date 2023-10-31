@@ -51,7 +51,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       String currentUid = user.uid;
-      DatabaseService databaseService = DatabaseService(currentUid);
+      DatabaseService(currentUid);
       uid = currentUid;
     }
   }
