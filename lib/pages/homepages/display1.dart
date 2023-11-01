@@ -15,12 +15,15 @@ class Display1 extends StatefulWidget {
 
 class _Display1State extends State<Display1> {
   AuthService authService = AuthService();
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = "";
   bool isEmailVerified = false;
   String username = "";
   bool isFruits = false;
   bool isVegetables = false;
   bool isOthers = false;
   bool isAll = true;
+  bool isSearching = false;
   List<Product> allProducts = [];
   List<Product> fruits = [];
   List<Product> vegetables = [];
@@ -31,7 +34,6 @@ class _Display1State extends State<Display1> {
     super.initState();
     checkIsEmailVerified();
     getUserData();
-    loadProducts();
   }
 
   getUserData() async {
@@ -66,9 +68,11 @@ class _Display1State extends State<Display1> {
 
   Future<void> loadProducts() async {
     Map<String, List<Product>> productsMap = await getAllProducts();
+    allProducts = [];
     allProducts.addAll(productsMap['fruits'] ?? []);
     allProducts.addAll(productsMap['vegetables'] ?? []);
     allProducts.addAll(productsMap['others'] ?? []);
+
     fruits = productsMap['fruits'] ?? [];
     vegetables = productsMap['vegetables'] ?? [];
     others = productsMap['others'] ?? [];
@@ -80,64 +84,62 @@ class _Display1State extends State<Display1> {
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
-      body: !isEmailVerified
-          ? Center(
-              child: Scaffold(
-                backgroundColor: Colors.white70,
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.lock_rounded,
-                      size: fontSizeCoefficient * 40,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      height: fontSizeCoefficient * 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Verify your account to order.",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: fontSizeCoefficient * 14,
-                          ),
-                        ),
-                        SizedBox(
-                          width: fontSizeCoefficient * 5,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Verification1(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Verify there!",
+        body: !isEmailVerified
+            ? Center(
+                child: Scaffold(
+                  backgroundColor: Colors.white70,
+                  body: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.lock_rounded,
+                        size: fontSizeCoefficient * 40,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: fontSizeCoefficient * 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Verify your account to order.",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: fontSizeCoefficient * 14,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                          SizedBox(
+                            width: fontSizeCoefficient * 5,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Verification1(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Verify there!",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: fontSizeCoefficient * 14,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          : Scaffold(
-              backgroundColor: Colors.white70,
-              body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Padding(
+              )
+            : Scaffold(
+                backgroundColor: Colors.white70,
+                body: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: paddingCoefficient * 2,
                     vertical: paddingCoefficient * 4.5,
@@ -145,22 +147,70 @@ class _Display1State extends State<Display1> {
                   child: Column(
                     children: [
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Hello, ",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: fontSizeCoefficient * 20),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hello, ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: fontSizeCoefficient * 20,
                             ),
-                            Text(
-                              username,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: fontSizeCoefficient * 20,
-                                  fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            username,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: fontSizeCoefficient * 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ]),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: fontSizeCoefficient * 20,
+                      ),
+                      TextField(
+                        onTap: () {
+                          setState(() {
+                            isSearching = true;
+                          });
+                        },
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey,
+                          hintText: "Search products for example: Apple ",
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: fontSizeCoefficient * 12),
+                          prefixIcon: Icon(Icons.search,
+                              size: fontSizeCoefficient * 20,
+                              color: Colors.black),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: fontSizeCoefficient * 13,
+                            horizontal: fontSizeCoefficient * 15,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius:
+                                BorderRadius.circular(30 * fontSizeCoefficient),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius:
+                                BorderRadius.circular(fontSizeCoefficient * 30),
+                          ),
+                        ),
+                        onChanged: (query) {
+                          setState(() {
+                            searchQuery = query;
+                            isAll = true;
+                            isFruits = false;
+                            isVegetables = false;
+                            isOthers = false;
+                          });
+                        },
+                      ),
                       SizedBox(
                         height: fontSizeCoefficient * 20,
                       ),
@@ -245,20 +295,46 @@ class _Display1State extends State<Display1> {
                           ),
                         ],
                       ),
-                      SizedBox(height: fontSizeCoefficient * 20),
-                      buildProductList(),
+                      SizedBox(height: fontSizeCoefficient * 10),
+                      Expanded(
+                        child: FutureBuilder(
+                          future: loadProducts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return buildProductList();
+                            } else if (snapshot.hasError) {
+                              return Text(
+                                'Error loading products: ${snapshot.error}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: fontSizeCoefficient * 14,
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                child: SizedBox(
+                                    width: 150,
+                                    height: 150,
+                                    child: CircularProgressIndicator()),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
-    );
+              ));
   }
 
   Widget buildProductList() {
     List<dynamic>? products;
     if (isAll) {
-      products = allProducts;
+      products = allProducts
+          .where((product) =>
+              product.name.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
     } else if (isFruits) {
       products = fruits;
     } else if (isVegetables) {
@@ -268,7 +344,6 @@ class _Display1State extends State<Display1> {
     }
 
     return ListView.builder(
-      shrinkWrap: true,
       itemCount: (products!.length / 2).ceil(),
       itemBuilder: (context, index) {
         final firstProductIndex = index * 2;
@@ -294,18 +369,38 @@ class _Display1State extends State<Display1> {
     final screenHeight = MediaQuery.of(context).size.height;
     final fontSizeCoefficient = screenHeight / 700;
     return Card(
-      child: ListTile(
-        leading: Image.network(
-          product.pictureURL,
-          width: 50,
-          height: 50,
-        ),
-        title: Text(
-          product.name,
-          style: TextStyle(
-              color: Colors.black, fontSize: fontSizeCoefficient * 12),
-        ),
-        subtitle: Text('Price: ${product.price.toString()}€'),
+      child: Column(
+        children: [
+          Image.network(
+            product.pictureURL,
+            width: 100,
+            height: 100,
+          ),
+          ListTile(
+            title: Text(
+              product.name,
+              style: TextStyle(
+                  fontSize: fontSizeCoefficient * 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'ID: ${product.ID.toString()}',
+                  style: TextStyle(
+                      fontSize: fontSizeCoefficient * 12, color: Colors.black),
+                ),
+                Text(
+                  '${product.price.toString()} €',
+                  style: TextStyle(
+                      fontSize: fontSizeCoefficient * 12, color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -64,6 +64,8 @@ class _HomepageState extends State<Homepage>
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       body: NotificationListener<ScrollEndNotification>(
         onNotification: (notification) {
           if (notification is ScrollEndNotification) {

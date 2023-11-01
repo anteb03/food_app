@@ -68,8 +68,7 @@ class _Display3State extends State<Display3> {
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(paddingCoefficient * 2),
