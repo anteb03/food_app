@@ -22,4 +22,4 @@ Updates:
 
 5.11.2023: Till this day:
 - displaying products from Cloud Firestore
-- added updating user profile picture in Firebase Firestore
+- added updating user profile picture in Firebase Storage
