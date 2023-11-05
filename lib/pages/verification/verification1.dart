@@ -104,7 +104,7 @@ class _Verification1State extends State<Verification1> {
                       height: fontSizeCoefficient * 5,
                     ),
                     Text(
-                      "Your email is verified.",
+                      "Your account is verified.",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: fontSizeCoefficient * 15),

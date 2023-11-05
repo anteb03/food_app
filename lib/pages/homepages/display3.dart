@@ -5,7 +5,9 @@ import 'package:aplikacija2/pages/homepages/userdatacollection.dart';
 import 'package:aplikacija2/pages/verification/verification1.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class Display3 extends StatefulWidget {
   const Display3({super.key});
@@ -18,13 +20,17 @@ class _Display3State extends State<Display3> {
   AuthService authService = AuthService();
   String username = "";
   String email = "";
+  String? _imagePath;
+  File? _image;
   bool isEmailVerified = false;
+  bool getImage = false;
 
   @override
   void initState() {
     super.initState();
     getUserData();
     checkIsEmailVerified();
+    loadUserProfileImage();
   }
 
   getUserData() async {
@@ -62,6 +68,40 @@ class _Display3State extends State<Display3> {
     prefs.setBool('isEmailVerified', isEmailVerified);
   }
 
+  Future pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+        _imagePath = image.path;
+      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('userProfileImage', _imagePath!);
+    }
+  }
+
+  Future removeImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userProfileImage');
+    setState(() {
+      _image = null;
+      _imagePath = null;
+      getImage = false;
+    });
+  }
+
+  Future loadUserProfileImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? imagePath = prefs.getString('userProfileImage');
+    if (imagePath != null) {
+      setState(() {
+        _image = File(imagePath);
+        _imagePath = imagePath;
+        getImage = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -75,11 +115,106 @@ class _Display3State extends State<Display3> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.account_circle,
-                size: fontSizeCoefficient * 175,
+              InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black87,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          content: SizedBox(
+                            height: fontSizeCoefficient * 55,
+                            width: fontSizeCoefficient * 50,
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    pickImage();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.photo_camera,
+                                          color: Colors.white,
+                                          size: fontSizeCoefficient * 20),
+                                      SizedBox(width: fontSizeCoefficient * 10),
+                                      Text(
+                                        "UPLOAD NEW IMAGE",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: fontSizeCoefficient * 13),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: fontSizeCoefficient * 7,
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  height: 1,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(
+                                  height: fontSizeCoefficient * 7,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    removeImage();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.delete,
+                                          color: Colors.white,
+                                          size: fontSizeCoefficient * 20),
+                                      SizedBox(width: fontSizeCoefficient * 10),
+                                      Text(
+                                        "REMOVE CURRENT IMAGE",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: fontSizeCoefficient * 13),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                },
+                child: _image == null
+                    ? Stack(children: [
+                        Icon(Icons.account_circle,
+                            size: fontSizeCoefficient * 175,
+                            color: Colors.grey),
+                        Positioned(
+                          right: fontSizeCoefficient * 12,
+                          bottom: fontSizeCoefficient * 30,
+                          child: Icon(
+                            Icons.add_a_photo_sharp,
+                            size: fontSizeCoefficient * 30,
+                            color: Colors.black,
+                          ),
+                        )
+                      ])
+                    : ClipOval(
+                        child: Image.file(
+                          _image!,
+                          width: fontSizeCoefficient * 150,
+                          height: fontSizeCoefficient * 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
               ),
-              SizedBox(height: fontSizeCoefficient),
+              if (getImage)
+                SizedBox(
+                  height: fontSizeCoefficient * 6,
+                ),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 if (isEmailVerified)
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -117,7 +252,7 @@ class _Display3State extends State<Display3> {
                   ),
                 )
               ]),
-              SizedBox(height: 55 * fontSizeCoefficient),
+              SizedBox(height: 45 * fontSizeCoefficient),
               Container(
                 width: double.infinity,
                 height: 1,

@@ -14,6 +14,7 @@ dependencies:
   firebase_core: ^2.14.0
   flutter:
     sdk: flutter
+  image_picker: ^1.0.4
   lottie: ^2.6.0
   pinput: ^2.2.31
   shared_preferences: ^2.2.2

@@ -72,7 +72,6 @@ class _Display1State extends State<Display1> {
     allProducts.addAll(productsMap['fruits'] ?? []);
     allProducts.addAll(productsMap['vegetables'] ?? []);
     allProducts.addAll(productsMap['others'] ?? []);
-
     fruits = productsMap['fruits'] ?? [];
     vegetables = productsMap['vegetables'] ?? [];
     others = productsMap['others'] ?? [];
@@ -173,6 +172,7 @@ class _Display1State extends State<Display1> {
                         onTap: () {
                           setState(() {
                             isSearching = true;
+                            isAll = true;
                           });
                         },
                         controller: searchController,
@@ -204,7 +204,7 @@ class _Display1State extends State<Display1> {
                         onChanged: (query) {
                           setState(() {
                             searchQuery = query;
-                            isAll = true;
+                            isSearching = query.isNotEmpty;
                             isFruits = false;
                             isVegetables = false;
                             isOthers = false;
@@ -214,114 +214,157 @@ class _Display1State extends State<Display1> {
                       SizedBox(
                         height: fontSizeCoefficient * 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              setState(() {
-                                isAll = true;
-                                isFruits = false;
-                                isVegetables = false;
-                                isOthers = false;
-                              });
-                            },
-                            child: Text(
-                              "All",
-                              style: TextStyle(
-                                color: isAll ? Colors.blue : Colors.black,
-                                fontSize: fontSizeCoefficient * 12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: fontSizeCoefficient * 30),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              setState(() {
-                                isAll = false;
-                                isFruits = true;
-                                isVegetables = false;
-                                isOthers = false;
-                              });
-                            },
-                            child: Text(
-                              "Fruits",
-                              style: TextStyle(
-                                color: isFruits ? Colors.blue : Colors.black,
-                                fontSize: fontSizeCoefficient * 12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: fontSizeCoefficient * 30),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              setState(() {
-                                isAll = false;
-                                isFruits = false;
-                                isVegetables = true;
-                                isOthers = false;
-                              });
-                            },
-                            child: Text(
-                              "Vegetables",
-                              style: TextStyle(
-                                color:
-                                    isVegetables ? Colors.blue : Colors.black,
-                                fontSize: fontSizeCoefficient * 12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: fontSizeCoefficient * 30),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              setState(() {
-                                isAll = false;
-                                isFruits = false;
-                                isVegetables = false;
-                                isOthers = true;
-                              });
-                            },
-                            child: Text(
-                              "Others",
-                              style: TextStyle(
-                                color: isOthers ? Colors.blue : Colors.black,
-                                fontSize: fontSizeCoefficient * 12,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: fontSizeCoefficient * 10),
-                      Expanded(
-                        child: FutureBuilder(
-                          future: loadProducts(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              return buildProductList();
-                            } else if (snapshot.hasError) {
-                              return Text(
-                                'Error loading products: ${snapshot.error}',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: fontSizeCoefficient * 14,
-                                ),
-                              );
-                            } else {
-                              return const Center(
-                                child: SizedBox(
+                      if (isSearching)
+                        Expanded(
+                          child: FutureBuilder(
+                            future: loadProducts(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return buildProductList();
+                              } else if (snapshot.hasError) {
+                                return Text(
+                                  'Error loading products: ${snapshot.error}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: fontSizeCoefficient * 14,
+                                  ),
+                                );
+                              } else {
+                                return const Center(
+                                  child: SizedBox(
                                     width: 150,
                                     height: 150,
-                                    child: CircularProgressIndicator()),
-                              );
-                            }
-                          },
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Column(children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: fontSizeCoefficient * 8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    onTap: () {
+                                      setState(() {
+                                        isAll = true;
+                                        isFruits = false;
+                                        isVegetables = false;
+                                        isOthers = false;
+                                      });
+                                    },
+                                    child: Text(
+                                      "All",
+                                      style: TextStyle(
+                                        color:
+                                            isAll ? Colors.blue : Colors.black,
+                                        fontSize: fontSizeCoefficient * 12,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: fontSizeCoefficient * 30),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    onTap: () {
+                                      setState(() {
+                                        isAll = false;
+                                        isFruits = true;
+                                        isVegetables = false;
+                                        isOthers = false;
+                                      });
+                                    },
+                                    child: Text(
+                                      "Fruits",
+                                      style: TextStyle(
+                                        color: isFruits
+                                            ? Colors.blue
+                                            : Colors.black,
+                                        fontSize: fontSizeCoefficient * 12,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: fontSizeCoefficient * 30),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    onTap: () {
+                                      setState(() {
+                                        isAll = false;
+                                        isFruits = false;
+                                        isVegetables = true;
+                                        isOthers = false;
+                                      });
+                                    },
+                                    child: Text(
+                                      "Vegetables",
+                                      style: TextStyle(
+                                        color: isVegetables
+                                            ? Colors.blue
+                                            : Colors.black,
+                                        fontSize: fontSizeCoefficient * 12,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: fontSizeCoefficient * 30),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    onTap: () {
+                                      setState(() {
+                                        isAll = false;
+                                        isFruits = false;
+                                        isVegetables = false;
+                                        isOthers = true;
+                                      });
+                                    },
+                                    child: Text(
+                                      "Others",
+                                      style: TextStyle(
+                                        color: isOthers
+                                            ? Colors.blue
+                                            : Colors.black,
+                                        fontSize: fontSizeCoefficient * 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: fontSizeCoefficient * 10),
+                            Expanded(
+                              child: FutureBuilder(
+                                future: loadProducts(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return buildProductList();
+                                  } else if (snapshot.hasError) {
+                                    return Text(
+                                      'Error loading products: ${snapshot.error}',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: fontSizeCoefficient * 14,
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: SizedBox(
+                                          width: 150,
+                                          height: 150,
+                                          child: CircularProgressIndicator()),
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                          ]),
                         ),
-                      ),
                     ],
                   ),
                 ),
