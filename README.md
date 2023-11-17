@@ -21,5 +21,5 @@ Updates:
 - adding other functionalities to project
 
 5.11.2023: Till this day:
-- dipslaying products from Cloud Firestore
-- added updating user profile picture in Firebase Firestore
+- displaying products from Cloud Firestore
+- added updating user profile picture in Firebase Storage
