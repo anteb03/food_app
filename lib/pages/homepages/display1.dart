@@ -1,10 +1,13 @@
 import 'package:aplikacija2/help/authentification.dart';
 import 'package:aplikacija2/help/help.dart';
+import 'package:aplikacija2/pages/products/cartpage.dart';
 import 'package:aplikacija2/pages/products/products.dart';
 import 'package:aplikacija2/pages/verification/verification1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aplikacija2/help/displaygreetings.dart';
+import 'package:aplikacija2/help/loadingskeleton.dart';
 
 class Display1 extends StatefulWidget {
   const Display1({super.key});
@@ -28,6 +31,7 @@ class _Display1State extends State<Display1> {
   List<Product> fruits = [];
   List<Product> vegetables = [];
   List<Product> others = [];
+  List<Product> selectedProduct = [];
 
   @override
   void initState() {
@@ -75,6 +79,15 @@ class _Display1State extends State<Display1> {
     fruits = productsMap['fruits'] ?? [];
     vegetables = productsMap['vegetables'] ?? [];
     others = productsMap['others'] ?? [];
+  }
+
+  void addToCart(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CartPage(selectedProduct: product),
+      ),
+    );
   }
 
   @override
@@ -148,13 +161,7 @@ class _Display1State extends State<Display1> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            "Hello, ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: fontSizeCoefficient * 20,
-                            ),
-                          ),
+                          const DisplayGreetings(),
                           Text(
                             username,
                             style: TextStyle(
@@ -231,12 +238,10 @@ class _Display1State extends State<Display1> {
                                   ),
                                 );
                               } else {
-                                return const Center(
-                                  child: SizedBox(
-                                    width: 150,
-                                    height: 150,
-                                    child: CircularProgressIndicator(),
-                                  ),
+                                return SizedBox(
+                                  width: 150,
+                                  height: 150,
+                                  child: AnimatedSkeleton(),
                                 );
                               }
                             },
@@ -353,11 +358,10 @@ class _Display1State extends State<Display1> {
                                       ),
                                     );
                                   } else {
-                                    return const Center(
-                                      child: SizedBox(
-                                          width: 150,
-                                          height: 150,
-                                          child: CircularProgressIndicator()),
+                                    return SizedBox(
+                                      width: 150,
+                                      height: 150,
+                                      child: AnimatedSkeleton(),
                                     );
                                   }
                                 },
@@ -411,39 +415,50 @@ class _Display1State extends State<Display1> {
   Widget buildProductCard(dynamic product) {
     final screenHeight = MediaQuery.of(context).size.height;
     final fontSizeCoefficient = screenHeight / 700;
-    return Card(
-      child: Column(
-        children: [
-          Image.network(
-            product.pictureURL,
-            width: 100,
-            height: 100,
-          ),
-          ListTile(
-            title: Text(
-              product.name,
-              style: TextStyle(
-                  fontSize: fontSizeCoefficient * 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+    return InkWell(
+      onTap: () {
+        addToCart(product);
+      },
+      child: Card(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              child: Image.network(
+                product.pictureURL,
+                width: 100,
+                height: 100,
+                fit: BoxFit.contain,
+              ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'ID: ${product.ID.toString()}',
-                  style: TextStyle(
-                      fontSize: fontSizeCoefficient * 12, color: Colors.black),
-                ),
-                Text(
-                  '${product.price.toString()} €',
-                  style: TextStyle(
-                      fontSize: fontSizeCoefficient * 12, color: Colors.black),
-                ),
-              ],
+            ListTile(
+              title: Text(
+                product.name,
+                style: TextStyle(
+                    fontSize: fontSizeCoefficient * 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'ID: ${product.ID.toString()}',
+                    style: TextStyle(
+                        fontSize: fontSizeCoefficient * 12,
+                        color: Colors.black),
+                  ),
+                  Text(
+                    '${product.price.toString()} €',
+                    style: TextStyle(
+                        fontSize: fontSizeCoefficient * 12,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
