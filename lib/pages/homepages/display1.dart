@@ -182,6 +182,7 @@ class _Display1State extends State<Display1> {
                             isAll = true;
                           });
                         },
+                        cursorColor: Colors.black,
                         controller: searchController,
                         decoration: InputDecoration(
                           filled: true,
@@ -238,11 +239,7 @@ class _Display1State extends State<Display1> {
                                   ),
                                 );
                               } else {
-                                return SizedBox(
-                                  width: 150,
-                                  height: 150,
-                                  child: AnimatedSkeleton(),
-                                );
+                                return LoadingSkeleton();
                               }
                             },
                           ),
@@ -358,11 +355,7 @@ class _Display1State extends State<Display1> {
                                       ),
                                     );
                                   } else {
-                                    return SizedBox(
-                                      width: 150,
-                                      height: 150,
-                                      child: AnimatedSkeleton(),
-                                    );
+                                    return LoadingSkeleton();
                                   }
                                 },
                               ),
@@ -420,6 +413,10 @@ class _Display1State extends State<Display1> {
         addToCart(product);
       },
       child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            side: BorderSide(color: Colors.black.withOpacity(0.2), width: 1)),
         child: Column(
           children: [
             Container(

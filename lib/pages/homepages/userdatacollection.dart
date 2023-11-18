@@ -68,6 +68,30 @@ class _UserDataCollectionState extends State<UserDataCollection> {
     final paddingCoefficient = screenHeight / 100;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: ClipOval(
+          child: Material(
+            color: Colors.black.withOpacity(0.9),
+            child: InkWell(
+              child: SizedBox(
+                height: 10,
+                width: 10,
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: fontSizeCoefficient * 20,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Stack(children: [

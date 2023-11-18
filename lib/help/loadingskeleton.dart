@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
 
-class AnimatedSkeleton extends StatelessWidget {
-  const AnimatedSkeleton({super.key});
+class LoadingSkeleton extends StatefulWidget {
+  const LoadingSkeleton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final fontSizeCoefficient = screenHeight / 700;
-    return ListView.builder(
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        return Row(
-          children: [
-            const Skeleton(),
-            SizedBox(
-              height: fontSizeCoefficient * 12,
-            ),
-            const Skeleton()
-          ],
-        );
-      },
-    );
-  }
+  State<LoadingSkeleton> createState() => _LoadingSkeletonState();
 }
 
-class Skeleton extends StatelessWidget {
-  const Skeleton({super.key});
+class _LoadingSkeletonState extends State<LoadingSkeleton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _animation = ColorTween(begin: Colors.grey[300], end: Colors.grey[600])
+        .animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,23 +42,51 @@ class Skeleton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: paddingCoefficient * 2,
-      ),
-      child: Container(
-        color: Colors.grey.withOpacity(0.1),
-        width: screenWidth / 2 - fontSizeCoefficient * 5,
-        height: screenHeight / 4 - fontSizeCoefficient * 5,
-        child: Column(children: [
-          Container(),
-          SizedBox(),
-          Container(),
-          SizedBox(),
-          Container(),
-          SizedBox(),
-          Container(),
-        ]),
+    return ListView.builder(
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: paddingCoefficient / 1.5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildSkeletonContainer(screenWidth, fontSizeCoefficient),
+              _buildSkeletonContainer(screenWidth, fontSizeCoefficient),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSkeletonContainer(
+      double screenWidth, double fontSizeCoefficient) {
+    return Container(
+      height: 128 * fontSizeCoefficient,
+      width: screenWidth * 0.45,
+      decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(width: 1, color: Colors.black.withOpacity(0.2))),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        child: Column(
+          children: [
+            Container(
+              height: 73 * fontSizeCoefficient,
+              width: double.infinity,
+              color: _animation.value,
+            ),
+            SizedBox(height: 6 * fontSizeCoefficient),
+            for (int i = 0; i < 3; i++)
+              Container(
+                height: 8 * fontSizeCoefficient,
+                width: double.infinity,
+                color: _animation.value,
+                margin: EdgeInsets.symmetric(vertical: 2),
+              ),
+          ],
+        ),
       ),
     );
   }
