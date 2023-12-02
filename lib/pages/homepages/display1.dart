@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aplikacija2/help/displaygreetings.dart';
 import 'package:aplikacija2/help/loadingskeleton.dart';
+import 'dart:async';
+import 'package:aplikacija2/pages/products/maincartpage.dart';
 
 class Display1 extends StatefulWidget {
   const Display1({super.key});
@@ -170,6 +172,25 @@ class _Display1State extends State<Display1> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Cart(),
+                                  ),
+                                );
+                              },
+                              child: Icon(
+                                Icons.shopping_cart,
+                                color: Colors.black,
+                                size: fontSizeCoefficient * 23,
+                              ),
+                            ),
+                          )),
                         ],
                       ),
                       SizedBox(
@@ -413,7 +434,8 @@ class _Display1State extends State<Display1> {
         addToCart(product);
       },
       child: Card(
-        elevation: 4,
+        elevation: 10,
+        shadowColor: Colors.blueAccent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
             side: BorderSide(color: Colors.black.withOpacity(0.2), width: 1)),

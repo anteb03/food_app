@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aplikacija2/pages/products/products.dart';
+import 'package:aplikacija2/pages/products/maincartpage.dart';
 
 class CartPage extends StatefulWidget {
   final Product selectedProduct;
@@ -22,8 +23,22 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: InkWell(
+          child: SizedBox(
+            height: 10,
+            width: 10,
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: fontSizeCoefficient * 20,
+            ),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      backgroundColor: Colors.grey.withOpacity(0.8),
+      backgroundColor: Colors.grey.withOpacity(0.5),
       body: Stack(children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -177,7 +192,10 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Cart.addToCart(widget.selectedProduct, quantity);
+                    Navigator.pop(context);
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(fontSizeCoefficient * 20),
                     child: Row(

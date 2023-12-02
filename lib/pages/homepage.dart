@@ -109,8 +109,8 @@ class _HomepageState extends State<Homepage>
                     label: 'Offer',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_cart),
-                    label: 'Order',
+                    icon: Icon(Icons.headset_mic),
+                    label: 'Live Support',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.account_circle),

@@ -23,3 +23,7 @@ Updates:
 5.11.2023: Till this day:
 - displaying products from Cloud Firestore
 - added updating user profile picture in Firebase Storage
+
+2.12.2023: Till this day:
+- allowing user to add products to cart page (creating one page for choosing quantity of chosen product and one for displaying chosen products and its quantity)
+- making UI better
