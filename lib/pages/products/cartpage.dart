@@ -38,7 +38,7 @@ class _CartPageState extends State<CartPage> {
           },
         ),
       ),
-      backgroundColor: Colors.grey.withOpacity(0.5),
+      backgroundColor: Colors.white.withOpacity(0.8),
       body: Stack(children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -102,7 +102,7 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 65 * fontSizeCoefficient,
+                    width: 45 * fontSizeCoefficient,
                     height: 35 * fontSizeCoefficient,
                     child: ElevatedButton(
                       onPressed: quantity == 1
@@ -141,7 +141,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                   SizedBox(width: fontSizeCoefficient * 10),
                   SizedBox(
-                    width: 65 * fontSizeCoefficient,
+                    width: 45 * fontSizeCoefficient,
                     height: 35 * fontSizeCoefficient,
                     child: ElevatedButton(
                         style: ButtonStyle(

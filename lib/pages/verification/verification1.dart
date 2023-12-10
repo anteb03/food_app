@@ -110,7 +110,7 @@ class _Verification1State extends State<Verification1> {
                           fontSize: fontSizeCoefficient * 15),
                     ),
                     Text(
-                      "You can order food now!",
+                      "You can order food now !",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: fontSizeCoefficient * 15),

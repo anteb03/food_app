@@ -180,7 +180,7 @@ class _Display1State extends State<Display1> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Cart(),
+                                    builder: (context) => const Cart(),
                                   ),
                                 );
                               },
@@ -206,6 +206,26 @@ class _Display1State extends State<Display1> {
                         cursorColor: Colors.black,
                         controller: searchController,
                         decoration: InputDecoration(
+                          suffixIcon: searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Colors.black,
+                                    size: fontSizeCoefficient * 14,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      searchController.clear();
+                                      searchQuery = "";
+                                      isSearching = searchQuery.isNotEmpty;
+                                      isAll = true;
+                                      isFruits = false;
+                                      isVegetables = false;
+                                      isOthers = false;
+                                    });
+                                  },
+                                )
+                              : null,
                           filled: true,
                           fillColor: Colors.grey,
                           hintText: "Search products for example: Apple ",
@@ -260,7 +280,7 @@ class _Display1State extends State<Display1> {
                                   ),
                                 );
                               } else {
-                                return LoadingSkeleton();
+                                return const LoadingSkeleton();
                               }
                             },
                           ),
@@ -376,7 +396,7 @@ class _Display1State extends State<Display1> {
                                       ),
                                     );
                                   } else {
-                                    return LoadingSkeleton();
+                                    return const LoadingSkeleton();
                                   }
                                 },
                               ),

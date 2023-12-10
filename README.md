@@ -27,3 +27,8 @@ Updates:
 2.12.2023: Till this day:
 - allowing user to add products to cart page (creating one page for choosing quantity of chosen product and one for displaying chosen products and its quantity)
 - making UI better
+
+10.12.2023: Till this day:
+- displaying total price for delivery in cart page
+- addded modal bottom sheet for checking order (allowing user to confirm location for delivery)
+- added other page for choosing delivery location

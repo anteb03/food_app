@@ -72,23 +72,24 @@ class _UserDataCollectionState extends State<UserDataCollection> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: ClipOval(
-          child: Material(
-            color: Colors.black.withOpacity(0.9),
-            child: InkWell(
-              child: SizedBox(
-                height: 10,
-                width: 10,
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: fontSizeCoefficient * 20,
-                ),
+        leading: Padding(
+          padding: EdgeInsets.only(
+              left: fontSizeCoefficient * 10, top: fontSizeCoefficient * 10),
+          child: InkWell(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.9),
+                  borderRadius:
+                      BorderRadius.circular(fontSizeCoefficient * 13)),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: fontSizeCoefficient * 20,
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
             ),
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),
@@ -226,7 +227,7 @@ class _UserDataCollectionState extends State<UserDataCollection> {
                           isUIDvisible ? uid : obscuredUid,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: fontSizeCoefficient * 11,
+                            fontSize: fontSizeCoefficient * 12,
                           ),
                         ),
                         SizedBox(
