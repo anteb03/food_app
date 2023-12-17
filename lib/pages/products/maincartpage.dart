@@ -295,7 +295,7 @@ class _CartState extends State<Cart> {
                                                               7,
                                                     ),
                                                     Text(
-                                                      "${entry.quantity.toString()}",
+                                                      entry.quantity.toString(),
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize:
@@ -468,7 +468,7 @@ class _CartState extends State<Cart> {
                                                     color: Colors.black,
                                                     fontSize:
                                                         fontSizeCoefficient *
-                                                            16),
+                                                            18),
                                               ),
                                               Container(
                                                 height: 50,
@@ -535,7 +535,9 @@ class _CartState extends State<Cart> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const GMap()),
+                          MaterialPageRoute(
+                            builder: (context) => const GMap(),
+                          ),
                         ).then((value) {
                           setState(() {
                             addressController.text = Cart.deliveryAdress;

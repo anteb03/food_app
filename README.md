@@ -32,3 +32,7 @@ Updates:
 - displaying total price for delivery in cart page
 - addded modal bottom sheet for checking order (allowing user to confirm location for delivery)
 - added other page for choosing delivery location
+
+17.12.2023: Till this day: 
+- fixed problems if user is verified and logged in while loading app,
+- starting with adding balance to account which will be used in making purchase (order)

@@ -91,6 +91,7 @@ class _GMapState extends State<GMap> {
                             onPressed: () {
                               setState(() {
                                 controller.clear();
+                                searchResults = [];
                               });
                             },
                           )
@@ -106,9 +107,34 @@ class _GMapState extends State<GMap> {
                 itemCount: searchResults.length,
                 itemBuilder: (context, index) {
                   final result = searchResults[index];
-                  return ListTile(
-                    title: Text(result['display_name'] ?? ''),
-                    subtitle: Text(result['type'] ?? ''),
+                  return InkWell(
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: fontSizeCoefficient * 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: fontSizeCoefficient * 5,
+                            ),
+                            Text(
+                              result['display_name'] ?? '',
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: fontSizeCoefficient * 13),
+                            ),
+                            Text(
+                              result['type'] ?? '',
+                              style: TextStyle(
+                                  color: Colors.black45,
+                                  fontSize: fontSizeCoefficient * 12),
+                            ),
+                            SizedBox(
+                              height: fontSizeCoefficient * 4,
+                            )
+                          ],
+                        )),
                     onTap: () {
                       setState(() {
                         controller.text = result['display_name'];

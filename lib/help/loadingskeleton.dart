@@ -69,7 +69,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(width: 1, color: Colors.black.withOpacity(0.2))),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: Column(
           children: [
             Container(
@@ -83,7 +83,7 @@ class _LoadingSkeletonState extends State<LoadingSkeleton>
                 height: 8 * fontSizeCoefficient,
                 width: double.infinity,
                 color: _animation.value,
-                margin: EdgeInsets.symmetric(vertical: 2),
+                margin: const EdgeInsets.symmetric(vertical: 2),
               ),
           ],
         ),

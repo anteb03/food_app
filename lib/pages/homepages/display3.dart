@@ -216,23 +216,7 @@ class _Display3State extends State<Display3> {
                   height: fontSizeCoefficient * 6,
                 ),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                if (isEmailVerified)
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text(
-                      username,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: fontSizeCoefficient * 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      width: fontSizeCoefficient * 1,
-                    ),
-                    Icon(Icons.verified,
-                        size: fontSizeCoefficient * 15, color: Colors.blue)
-                  ])
-                else
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Text(
                     username,
                     style: TextStyle(
@@ -241,6 +225,13 @@ class _Display3State extends State<Display3> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(
+                    width: fontSizeCoefficient * 1,
+                  ),
+                  if (isEmailVerified)
+                    Icon(Icons.verified,
+                        size: fontSizeCoefficient * 15, color: Colors.blue)
+                ]),
                 SizedBox(
                   height: fontSizeCoefficient * 5,
                 ),

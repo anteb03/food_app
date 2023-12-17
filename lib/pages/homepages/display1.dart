@@ -3,16 +3,15 @@ import 'package:aplikacija2/help/help.dart';
 import 'package:aplikacija2/pages/products/cartpage.dart';
 import 'package:aplikacija2/pages/products/products.dart';
 import 'package:aplikacija2/pages/verification/verification1.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aplikacija2/help/displaygreetings.dart';
 import 'package:aplikacija2/help/loadingskeleton.dart';
 import 'dart:async';
 import 'package:aplikacija2/pages/products/maincartpage.dart';
 
 class Display1 extends StatefulWidget {
-  const Display1({super.key});
+  final bool? isEmailVerified;
+  const Display1({Key? key, this.isEmailVerified}) : super(key: key);
 
   @override
   State<Display1> createState() => _Display1State();
@@ -22,7 +21,7 @@ class _Display1State extends State<Display1> {
   AuthService authService = AuthService();
   TextEditingController searchController = TextEditingController();
   String searchQuery = "";
-  bool isEmailVerified = false;
+  bool? isEmailVerifiedd;
   String username = "";
   bool isFruits = false;
   bool isVegetables = false;
@@ -38,38 +37,16 @@ class _Display1State extends State<Display1> {
   @override
   void initState() {
     super.initState();
-    checkIsEmailVerified();
     getUserData();
+    isEmailVerifiedd = widget.isEmailVerified;
   }
 
-  getUserData() async {
+  void getUserData() async {
     await Helpfunction.getUserNameSf().then((val) {
       setState(() {
         username = val!;
       });
     });
-  }
-
-  void checkIsEmailVerified() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isVerified = prefs.getBool('isEmailVerified');
-    if (isVerified != null && isVerified) {
-      setState(() {
-        isEmailVerified = true;
-      });
-    }
-    if (!isEmailVerified) {
-      checkEmailVerification();
-    }
-  }
-
-  Future checkEmailVerification() async {
-    await FirebaseAuth.instance.currentUser!.reload();
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isEmailVerified', isEmailVerified);
   }
 
   Future<void> loadProducts() async {
@@ -98,7 +75,7 @@ class _Display1State extends State<Display1> {
     final fontSizeCoefficient = screenHeight / 700;
     final paddingCoefficient = screenHeight / 100;
     return Scaffold(
-        body: !isEmailVerified
+        body: isEmailVerifiedd == null
             ? Center(
                 child: Scaffold(
                   backgroundColor: Colors.white70,

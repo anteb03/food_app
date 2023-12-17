@@ -4,7 +4,8 @@ import 'package:aplikacija2/pages/homepages/display3.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  final bool? isEmailVerified;
+  const Homepage({Key? key, this.isEmailVerified}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -13,11 +14,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
-  final screens = [
-    const Display1(),
-    const Display2(),
-    const Display3(),
-  ];
+  late List<Widget> screens;
   late AnimationController _controller;
   final Color _startColor = Colors.blue[300]!;
   final Color _endColor = Colors.blue[600]!;
@@ -28,6 +25,13 @@ class _HomepageState extends State<Homepage>
   @override
   void initState() {
     super.initState();
+    screens = [
+      Display1(
+        isEmailVerified: widget.isEmailVerified,
+      ),
+      const Display2(),
+      const Display3(),
+    ];
     _pageController = PageController(initialPage: _selectedIndex);
     _controller = AnimationController(
       vsync: this,
@@ -102,18 +106,25 @@ class _HomepageState extends State<Homepage>
                 backgroundColor: bottomcnavcolor,
                 unselectedItemColor: Colors.black54,
                 selectedItemColor: Colors.black,
+                selectedLabelStyle:
+                    TextStyle(fontSize: fontSizeCoefficient * 12),
                 onTap: _onItemTapped,
-                items: const <BottomNavigationBarItem>[
+                items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.shop),
+                    icon: Icon(
+                      Icons.shop,
+                      size: fontSizeCoefficient * 20,
+                    ),
                     label: 'Offer',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.headset_mic),
+                    icon:
+                        Icon(Icons.headset_mic, size: fontSizeCoefficient * 20),
                     label: 'Live Support',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle),
+                    icon: Icon(Icons.account_circle,
+                        size: fontSizeCoefficient * 20),
                     label: 'Profile',
                   ),
                 ],

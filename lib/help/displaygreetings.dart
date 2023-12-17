@@ -5,10 +5,10 @@ class DisplayGreetings extends StatefulWidget {
   const DisplayGreetings({Key? key}) : super(key: key);
 
   @override
-  _DisplayGreetingsState createState() => _DisplayGreetingsState();
+  DisplayGreetingsState createState() => DisplayGreetingsState();
 }
 
-class _DisplayGreetingsState extends State<DisplayGreetings> {
+class DisplayGreetingsState extends State<DisplayGreetings> {
   List<String> texts = [
     'Hello, ',
     'Welcome, ',

@@ -7,6 +7,7 @@ import 'package:aplikacija2/pages/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -453,7 +454,12 @@ class _LoginPageState extends State<LoginPage>
           await Helpfunction.saveUserLoggedInStatus(true);
           await Helpfunction.saveUserEmailSF(email);
           await Helpfunction.saveUserNameSF(snapshot.docs[0]["fullName"]);
-          screenReplace(context, const Homepage());
+          bool? isEmailVerified = await checkEmailVerified();
+          screenReplace(
+              context,
+              Homepage(
+                isEmailVerified: isEmailVerified,
+              ));
         } else {
           snackbar(context, Colors.red, value);
           setState(() {
@@ -462,5 +468,21 @@ class _LoginPageState extends State<LoginPage>
         }
       });
     }
+  }
+}
+
+Future<bool> checkEmailVerified() async {
+  bool isEmailVerified = await checkEmailVerification();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('isEmailVerified', isEmailVerified);
+  return isEmailVerified;
+}
+
+Future<bool> checkEmailVerification() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null && user.emailVerified) {
+    return true;
+  } else {
+    return false;
   }
 }
